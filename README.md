@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/zinovik/decrypto-board-game-bot.svg?branch=master)](https://travis-ci.org/zinovik/decrypto-board-game-bot)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2cb01d55-9fec-4a04-be95-26a2956cccea/deploy-status)](https://app.netlify.com/sites/decrypto-board-game-bot/deploys)
-
 ![logo](./avatar/decrypto-board-game-bot.jpg)
 
 # DecryptoBoardGameBot
@@ -26,10 +24,10 @@ curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://<NGROK 
 
 ### 0.2. for the production
 
-Netlify Lambda Functions:
+Vercel Serverless:
 
 ```bash
-curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://decrypto-board-game-bot.netlify.app/.netlify/functions/message?token=<TOKEN>
+curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://decrypto-board-game-bot-git-vercel.zinovik.vercel.app/api/message?token=<TOKEN>
 ```
 
 ---
@@ -43,13 +41,13 @@ curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://decrypt
 You can start project as lambda function:
 
 ```bash
-npm run start:lambda
+npm run start:dev
 ```
 
 ### 1.3. you can involve the function locally
 
 ```bash
-curl localhost:9000/message
+curl localhost:3000/api/message
 ```
 
 ---

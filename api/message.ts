@@ -1,13 +1,13 @@
 import * as dotenv from 'dotenv';
+import { NowRequest, NowResponse } from '@now/node';
 import * as Mixpanel from 'mixpanel';
 
-import { ConfigParameterNotDefinedError } from '../common/error/ConfigParameterNotDefinedError';
-import { Main } from '../main/Main';
-import { TelegramService } from '../telegram/Telegram.service';
-import { GameService } from '../game/Game.service';
-import { MessageService } from '../message/Message.service';
-import { IEvent } from './model/IEvent.interface';
-import { IMessageBody } from '../common/model/IMessageBody.interface';
+import { ConfigParameterNotDefinedError } from '../src/common/error/ConfigParameterNotDefinedError';
+import { Main } from '../src/main/Main';
+import { TelegramService } from '../src/telegram/Telegram.service';
+import { GameService } from '../src/game/Game.service';
+import { MessageService } from '../src/message/Message.service';
+import { IMessageBody } from '../src/common/model/IMessageBody.interface';
 
 dotenv.config();
 
@@ -45,7 +45,12 @@ const track = ({ body, text }: { body: string; text: string }): Promise<void> =>
   });
 };
 
-exports.handler = async ({ body, queryStringParameters: { token } }: IEvent, context: never) => {
+export default async (_req: NowRequest, res: NowResponse) => {
+  const {
+    query: { token },
+    body,
+  } = _req;
+
   console.log('New request');
 
   if (process.env.TELEGRAM_TOKEN === undefined) {
@@ -56,13 +61,11 @@ exports.handler = async ({ body, queryStringParameters: { token } }: IEvent, con
   }
 
   if (token !== process.env.APP_TOKEN) {
-    return {
-      statusCode: 401,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    return res.status(401).send(
+      JSON.stringify({
         result: 'wrong token',
       }),
-    };
+    );
   }
 
   const configuration = {
@@ -78,18 +81,16 @@ exports.handler = async ({ body, queryStringParameters: { token } }: IEvent, con
   );
 
   try {
-    const text = await main.processMessage(body);
+    const text = await main.processMessage(JSON.stringify(body));
 
-    await track({ body, text });
+    await track({ body: JSON.stringify(body), text });
   } catch (error) {
     console.error('Unexpected error occurred: ', error.message);
   }
 
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  res.status(200).send(
+    JSON.stringify({
       result: 'success',
     }),
-  };
+  );
 };

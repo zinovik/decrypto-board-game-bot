@@ -2,5 +2,4 @@
 node_modules/
 /coverage
 /dist
-/lambda
-okteto-kube.config
+/.vercel
