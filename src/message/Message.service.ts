@@ -3,12 +3,7 @@ import { IReplyMarkup } from './../common/model/IReplyMarkup.interface';
 
 export class MessageService implements IMessageService {
   getWordsMessage({ words, languageCode }: { words: string[]; languageCode: string }): string {
-    const time = new Date().toLocaleString('en-US', {
-      timeZoneName: 'short',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: '2-digit',
-    });
+    const time = this.getDate();
 
     const line = '- - -';
     const newLines = '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
@@ -19,7 +14,7 @@ export class MessageService implements IMessageService {
   }
 
   getCodeMessage({ code, languageCode }: { code: number[]; languageCode: string }): string {
-    const time = new Date().toTimeString();
+    const time = this.getDate();
     const line = '- - -';
     const newLines = '\n\n';
 
@@ -32,5 +27,14 @@ export class MessageService implements IMessageService {
     return {
       keyboard: [['words en', 'words ru'], ['code'], ['help en', 'help ru']],
     };
+  }
+
+  getDate(): string {
+    return new Date().toLocaleString('en-US', {
+      timeZoneName: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: '2-digit',
+    });
   }
 }
