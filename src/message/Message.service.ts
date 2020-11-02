@@ -3,7 +3,13 @@ import { IReplyMarkup } from './../common/model/IReplyMarkup.interface';
 
 export class MessageService implements IMessageService {
   getWordsMessage({ words, languageCode }: { words: string[]; languageCode: string }): string {
-    const time = new Date().toTimeString();
+    const time = new Date().toLocaleString('en-US', {
+      timeZoneName: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: '2-digit',
+    });
+
     const line = '- - -';
     const newLines = '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
 
