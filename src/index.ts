@@ -2,8 +2,8 @@ import * as functions from '@google-cloud/functions-framework';
 import { ConfigParameterNotDefinedError } from './error/ConfigParameterNotDefinedError';
 import { Main } from './main/Main';
 import { TelegramService } from './messenger/Telegram.service';
-import { GameService } from '../src/game/Game.service';
-import { MessageService } from '../src/message/Message.service';
+import { GameService } from './game/Game.service';
+import { MessageService } from './message/Message.service';
 
 functions.http('main', async (req, res) => {
     console.log('Triggered!');
