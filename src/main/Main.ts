@@ -19,16 +19,9 @@ export class Main implements IMain {
         private readonly messageService: IMessageService
     ) {}
 
-    async processMessage(notParsedMessage: string): Promise<string> {
-        console.log(`New message: ${notParsedMessage}`);
-
-        let messageParsed: IMessageBody;
-
-        try {
-            messageParsed = JSON.parse(notParsedMessage);
-        } catch (error) {
-            console.error('Error parsing user message: ', error.message);
-            return 'Error parsing user message';
+    async processMessage(message: IMessageBody): Promise<string> {
+        if (!message.message) {
+            throw new Error(`Bad User Input: ${JSON.stringify(message)}`);
         }
 
         const {
@@ -36,7 +29,7 @@ export class Main implements IMain {
                 from: { id, language_code: languageCode },
                 text,
             },
-        } = messageParsed;
+        } = message;
 
         const textParsed = text.toLowerCase().trim();
         const languageCodeParsed = textParsed.split(' ')[1] || languageCode;

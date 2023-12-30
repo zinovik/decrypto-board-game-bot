@@ -1,3 +1,5 @@
+import { IMessageBody } from '../common/model/IMessageBody.interface';
+
 export interface IMain {
-    processMessage(notParsedMessage: string): Promise<string>;
+    processMessage(message: IMessageBody): Promise<string>;
 }
