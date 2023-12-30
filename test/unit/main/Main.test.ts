@@ -4,6 +4,7 @@ import { Main } from '../../../src/main/Main';
 import { IMessengerService } from '../../../src/messenger/IMessengerService.interface';
 import { IGameService } from '../../../src/game/IGameService.interface';
 import { IMessageService } from '../../../src/message/IMessageService.interface';
+import { IMessageBody } from '../../../src/common/model/IMessageBody.interface';
 
 const WORDS_QUANTITY = 4;
 const CODE_LENGTH = 3;
@@ -43,7 +44,9 @@ describe('Main', () => {
         // Arrange
 
         // Act
-        main.processMessage('');
+        main.processMessage({
+            message: { from: {}, text: '' },
+        } as IMessageBody);
 
         // Assert
         expect(true).toBeTruthy();
