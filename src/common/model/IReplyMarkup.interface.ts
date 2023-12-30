@@ -1,3 +1,3 @@
 export interface IReplyMarkup {
-  keyboard: Array<string[]>;
+    keyboard: Array<string[]>;
 }

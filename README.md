@@ -1,53 +1,75 @@
-[![Build Status](https://travis-ci.org/zinovik/decrypto-board-game-bot.svg?branch=master)](https://travis-ci.org/zinovik/decrypto-board-game-bot)
-
 ![logo](./avatar/decrypto-board-game-bot.jpg)
 
 # DecryptoBoardGameBot
 
 The bot for playing Decrypto board game, you must use it only to try how it works, then please buy the game itself ;)
 
-## you can check how it works here
+**working**
 
-Dev ([@DecryptoBoardGameBot](https://t.me/decryptoboardgamebot)):
+1. fill .env
 
----
-
-## 0. Setting the bot
-
-### 0.1. for the development
+2. start project
 
 ```bash
-~/ngrok http 9000
-
-curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://<NGROK ID>.ngrok.io/message?token=<TOKEN>
+docker-compose up
 ```
 
-### 0.2. for the production
-
-Vercel Serverless:
+or
 
 ```bash
-curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://decrypto-board-game-bot-git-vercel.zinovik.vercel.app/api/message?token=<TOKEN>
+npm run dev
 ```
 
----
-
-## 1. Working locally
-
-### 1.1. create and fill .env file (use .env.example for help)
-
-### 1.2. start the project
-
-You can start project as lambda function:
+3. setup bot
 
 ```bash
-npm run start:dev
+curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://us-central1-zinovik-project.cloudfunctions.net/decrypto-board-game-bot
 ```
 
-### 1.3. you can involve the function locally
+**testing**
 
 ```bash
-curl localhost:3000/api/message
+curl --location 'localhost:8080'
 ```
 
----
+```bash
+curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://<NGROK ID>.ngrok.io/index
+~/ngrok http 8080
+```
+
+## google cloud setup
+
+### create service account
+
+```bash
+gcloud iam service-accounts create github-actions
+```
+
+### add roles (`Service Account User` and `Cloud Functions Admin`) to the service account you want to use to deploy the function
+
+```
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/cloudfunctions.admin"
+
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/iam.serviceAccountUser"
+```
+
+### creating keys for service account for github-actions `GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY_FILE`
+
+```bash
+gcloud iam service-accounts keys create key-file.json --iam-account=github-actions@appspot.gserviceaccount.com
+cat key-file.json | base64
+```
+
+### add access to secrets
+
+```
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:306312319198-compute@developer.gserviceaccount.com" --role="roles/secretmanager.secretAccessor"
+```
+
+### add secrets
+
+```
+printf "TELEGRAM_TOKE" | gcloud secrets create decrypto-board-game-bot-telegram-token --locations=us-central1 --replication-policy="user-managed" --data-file=-
+
+printf "TOKEN" | gcloud secrets create decrypto-board-game-bot-app-token --locations=us-central1 --replication-policy="user-managed" --data-file=-
+```

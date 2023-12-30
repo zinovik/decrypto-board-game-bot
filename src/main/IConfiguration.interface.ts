@@ -1,4 +1,4 @@
 export interface IConfiguration {
-  wordsQuantity: number;
-  codeLength: number;
+    wordsQuantity: number;
+    codeLength: number;
 }
