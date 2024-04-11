@@ -23,7 +23,7 @@ npm run dev
 3. setup bot
 
 ```bash
-curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://europe-central2-zinovik-project.cloudfunctions.net/decrypto-board-game-bot
+curl https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://europe-central2-zinovik-project.cloudfunctions.net/decrypto-board-game-bot?token=<TOKEN>
 ```
 
 **testing**
