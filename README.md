@@ -23,7 +23,7 @@ npm run dev
 3. setup bot
 
 ```bash
-curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://us-central1-zinovik-project.cloudfunctions.net/decrypto-board-game-bot
+curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://europe-central2-zinovik-project.cloudfunctions.net/decrypto-board-game-bot
 ```
 
 **testing**
@@ -69,7 +69,7 @@ gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:
 ### add secrets
 
 ```
-printf "TELEGRAM_TOKEN" | gcloud secrets create decrypto-board-game-bot-telegram-token --locations=us-central1 --replication-policy="user-managed" --data-file=-
+printf "TELEGRAM_TOKEN" | gcloud secrets create decrypto-board-game-bot-telegram-token --locations=europe-central2 --replication-policy="user-managed" --data-file=-
 
-printf "TOKEN" | gcloud secrets create decrypto-board-game-bot-app-token --locations=us-central1 --replication-policy="user-managed" --data-file=-
+printf "TOKEN" | gcloud secrets create decrypto-board-game-bot-app-token --locations=europe-central2 --replication-policy="user-managed" --data-file=-
 ```
