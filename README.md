@@ -39,36 +39,39 @@ curl https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://<NGROK ID>.ngrok
 
 ## google cloud setup
 
-### create service account
+### create service accounts
 
 ```bash
 gcloud iam service-accounts create github-actions
+gcloud iam service-accounts create decrypto-board-game-bot
 ```
 
 ### add roles (`Service Account User` and `Cloud Functions Admin`) to the service account you want to use to deploy the function
 
-```
-gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/cloudfunctions.admin"
-
+```bash
 gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/iam.serviceAccountUser"
+
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/cloudbuild.builds.builder"
+
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:github-actions@zinovik-project.iam.gserviceaccount.com" --role="roles/viewer"
 ```
 
 ### creating keys for service account for github-actions `GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY_FILE`
 
 ```bash
-gcloud iam service-accounts keys create key-file.json --iam-account=github-actions@appspot.gserviceaccount.com
+gcloud iam service-accounts keys create key-file.json --iam-account=github-actions@zinovik-project.iam.gserviceaccount.com
 cat key-file.json | base64
 ```
 
 ### add access to secrets
 
-```
-gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:306312319198-compute@developer.gserviceaccount.com" --role="roles/secretmanager.secretAccessor"
+```bash
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:decrypto-board-game-bot@zinovik-project.iam.gserviceaccount.com" --role="roles/secretmanager.secretAccessor"
 ```
 
 ### add secrets
 
-```
+```bash
 printf "TELEGRAM_TOKEN" | gcloud secrets create decrypto-board-game-bot-telegram-token --locations=europe-central2 --replication-policy="user-managed" --data-file=-
 
 printf "TOKEN" | gcloud secrets create decrypto-board-game-bot-app-token --locations=europe-central2 --replication-policy="user-managed" --data-file=-
