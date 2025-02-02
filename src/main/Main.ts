@@ -7,8 +7,8 @@ import { IMessageService } from '../message/IMessageService.interface';
 import { IMessageBody } from '../common/model/IMessageBody.interface';
 
 const HELP: { [key: string]: string } = {
-    en: `https://www.scorpionmasque.com/en/decrypto`,
-    ru: `https://www.scorpionmasque.com/ru/decrypto`,
+    en: 'https://scorpionmasque.com/en/decrypto',
+    ru: 'https://scorpionmasque.com/ru/decrypto',
 };
 
 export class Main implements IMain {
@@ -20,8 +20,9 @@ export class Main implements IMain {
     ) {}
 
     async processMessage(message: IMessageBody): Promise<string> {
-        if (!message.message) {
-            throw new Error(`Bad User Input: ${JSON.stringify(message)}`);
+        if (!message.message || !message.message.text) {
+            console.warn(`Wrong input message: ${JSON.stringify(message)}`);
+            return;
         }
 
         const {

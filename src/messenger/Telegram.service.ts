@@ -32,16 +32,22 @@ export class TelegramService implements IMessengerService {
                 `Sending telegram message: ${JSON.stringify(message)}...`
             );
 
-            const { data } = await axios.post(
-                `${TELEGRAM_API_URL}${this.token}/sendMessage`,
-                message
-            );
+            try {
+                const { data } = await axios.post(
+                    `${TELEGRAM_API_URL}${this.token}/sendMessage`,
+                    message
+                );
 
-            console.log(
-                `Telegram message was successfully sent: ${JSON.stringify(
-                    data
-                )}`
-            );
+                console.log(
+                    `Telegram message was successfully sent: ${JSON.stringify(
+                        data
+                    )}`
+                );
+            } catch (error: unknown) {
+                console.warn(
+                    `Error sending telegram message: ${JSON.stringify(message)}`
+                );
+            }
         }
     }
 
